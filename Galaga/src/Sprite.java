@@ -28,7 +28,7 @@ public class Sprite {
 	
 	
 	public void draw(Graphics g) {
-		g.drawImage(img, x, y, null);
+		g.drawImage(image, x, y, null);
 	}
 	
 	
@@ -73,5 +73,12 @@ public class Sprite {
 		Rectangle otherRect = new Rectangle();
 		myRect.setBounds(x, y, getWidth(), getHeight());
 		otherRect.setBounds(other.getX(), other.getY(), other.getWidth(), other.getHeight());
+		
+		return myRect.intersects(otherRect);
+	}
+	
+	
+	public void handleCollision(Sprite other) {
+		
 	}
 }

@@ -23,7 +23,7 @@ public class GalagaGame extends JPanel implements KeyListener {
 	private BufferedImage shipImage;
 
 	public GalagaGame() {
-		JFrame frame = new JFrame("GalagaGame");
+		JFrame frame = new JFrame("Galaga Game");
 
 		frame.setSize(800, 600);
 		frame.add(this);
@@ -50,7 +50,7 @@ public class GalagaGame extends JPanel implements KeyListener {
 		sprites.add(starship);
 		for (int y = 0; y < 5; y++) {
 			for (int x = 0; x < 12; x++) {
-				sprites alien = new AlienSprite(this, alienImage, 100 + (x * 50), (50) + y * 30);
+				Sprite alien = new AlienSprite(this, alienImage, 100 + (x * 50), (50) + y * 30);
 				sprites.add(alien);
 			}
 		}
@@ -70,7 +70,7 @@ public class GalagaGame extends JPanel implements KeyListener {
 	}
 
 	public void fire() {
-		shotSprite shot = new ShotSprite(this, shotImage, starship.getX() + 10, starship.getY() - 30);
+		ShotSprite shot = new ShotSprite(this, shotImage, starship.getX() + 10, starship.getY() - 30);
 		sprites.add(shot);
 	}
 
@@ -85,7 +85,7 @@ public class GalagaGame extends JPanel implements KeyListener {
 		}
 	}
 
-	public void gameoop() {
+	public void gameLoop() {
 
 		while (running) {
 			for (int i = 0; i < sprites.size(); i++) {
@@ -104,6 +104,7 @@ public class GalagaGame extends JPanel implements KeyListener {
 					}
 				}
 			}
+
 			repaint();
 			try {
 				Thread.sleep(10);
@@ -131,10 +132,10 @@ public class GalagaGame extends JPanel implements KeyListener {
 	}
 
 	@Override
-	public void keyTyped(KeyEvent argv[]) {
+	public void keyTyped(KeyEvent arg0) {
 	}
 
-	public static void main(String[] args) {
+	public static void main(String argv[]) {
 		GalagaGame g = new GalagaGame();
 		g.gameLoop();
 	}
