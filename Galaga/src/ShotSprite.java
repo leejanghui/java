@@ -14,7 +14,7 @@ public class ShotSprite extends Sprite {
 	@Override
 	public void move() {
 		super.move();
-		if (y < -100) {
+		if (y < 0) {//화면끝에서 탄이 사라지는 부분
 			game.removeSprite(this);
 		}
 	}
@@ -22,9 +22,10 @@ public class ShotSprite extends Sprite {
 	@Override
 	public void handleCollision(Sprite other) {
 
-		if (other instanceof AlienSprite) {
+		if (other instanceof AlienSprite) {//피격 판정이 발생하는 부분
 			game.removeSprite(this);
 			game.removeSprite(other);
+			
 		}
 	}
 }

@@ -15,7 +15,7 @@ public class StarShipSprite extends Sprite {
 		if ((dx < 0) && (x < 10)) {
 			return;
 		}
-		if ((dx > 0) && (x > 800)) {
+		if ((dx > 0) && (x > 760)) {
 			return;
 		}
 		super.move();

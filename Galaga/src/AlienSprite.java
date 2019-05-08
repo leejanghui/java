@@ -11,9 +11,9 @@ public class AlienSprite extends Sprite {
 
 	@Override
 	public void move() {
-		if (((dx < 0) && (x < 10)) || ((dx > 0) && (x > 800))) {
+		if (((dx < 0) && (x < 10)) || ((dx > 0) && (x > 780))) {
 			dx = -dx;
-			y += 10;
+			y += 15;
 			if (y > 600) {
 				game.endGame();
 			}
