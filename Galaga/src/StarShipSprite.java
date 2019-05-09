@@ -12,15 +12,20 @@ public class StarShipSprite extends Sprite {
 
 	@Override
 	public void move() {
+		if ((dy < 0) && (y < 10)) {
+			return;
+		}
+		if ((dy > 0) && (y > 520)) {
+			return;
+		}
 		if ((dx < 0) && (x < 10)) {
 			return;
 		}
 		if ((dx > 0) && (x > 760)) {
 			return;
 		}
-		if ((dy < 0) && (y < 0)) {
-			return;
-		}
+		
+		
 		super.move();
 	}
 

@@ -17,14 +17,15 @@ public class GalagaGame extends JPanel implements KeyListener {
 
 	private ArrayList sprites = new ArrayList();
 	private Sprite starship;
-	private int mob = 0;
+	//private int mob = 0;
 	private int bouns = 0;
-	private int shot = 20;
-	private int rerode = 10;
+	private int shott = 12;
+	private int rerode = 14;
 	private BufferedImage alienImage;
 	private BufferedImage shotImage;
 	private BufferedImage shipImage;
 	private BufferedImage KingalienImage;
+	private BufferedImage alienmobImage;
 
 	public GalagaGame() {//기본 틀
 		JFrame frame = new JFrame("Galaga Game");
@@ -37,9 +38,10 @@ public class GalagaGame extends JPanel implements KeyListener {
 
 		try {//이미지 로딩
 			shotImage = ImageIO.read(new File("fire.jpg"));
-			shipImage = ImageIO.read(new File("starship.png"));
+			shipImage = ImageIO.read(new File("starship.jpg"));
 			alienImage = ImageIO.read(new File("alien.png"));
 			KingalienImage = ImageIO.read(new File("Kingalien.jpg"));
+			alienmobImage = ImageIO.read(new File("alienmob.png"));
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -51,24 +53,31 @@ public class GalagaGame extends JPanel implements KeyListener {
 	}
 
 	private void initSprites() {
-		starship = new StarShipSprite(this, shipImage, 370, 550);
+		starship = new StarShipSprite(this, shipImage, 370, 480);
 		sprites.add(starship);
-		for (int y = 0; y < 5; y++) {//몹의 생성 수
-			for (int x = 0; x < 12; x++) {
-				Sprite alien = new AlienSprite(this, alienImage, 100 + (x * 30), (50) + y * 50);//몹의 생성 위치
-				Sprite ali = new AlienSprite(this, alienImage, 100 + (x * 30), (50) + y * 50);
-				sprites.add(alien);
-				sprites.add(ali);
-				Sprite Kingalien = new AlienSprite(this, KingalienImage, 100 + 30, 50 + 50);
-				sprites.add(Kingalien);
-				mob=mob+3;
+		for (int y = 0; y < 4; y++) {//몹의 생성 수
+			for (int x = 0; x < 10; x++) {
+				Sprite alienmob1 = new AlienSprite(this, alienmobImage, 100 + ((x+1) * 30), (50) + (y+1) * 50);//몹의 생성 위치
+				Sprite alienmob2= new AlienSprite(this, alienmobImage, 100 + ((x+1) * 30), (50) + (y+1) * 50);
+				Sprite alienmob3 = new AlienSprite(this, alienmobImage, 100 + ((x+1) * 30), (50) + (y+1) * 50);
+				Sprite alienmob4 = new AlienSprite(this, alienmobImage, 100 + ((x+1) * 30), (50) + (y+1) * 50);
+				sprites.add(alienmob1);
+				sprites.add(alienmob2);
+				sprites.add(alienmob3);
+				sprites.add(alienmob4);
+				Sprite Kingalien1 = new AlienSprite(this, KingalienImage, 100 + 30, 50 + 50);
+				Sprite Kingalien2 = new AlienSprite(this, KingalienImage, 100 + 30, 50 + 50);
+				sprites.add(Kingalien1);
+				sprites.add(Kingalien2);
 			}
 		}
+		/*
 			if(mob == 15){
 				for(int i = 0; i < 10; i++){
 					
 			}
 		}
+		*/
 	}
 	
 	
@@ -87,6 +96,14 @@ public class GalagaGame extends JPanel implements KeyListener {
 	}
 
 	public void fire() {
+		ShotSprite shot = new ShotSprite(this, shotImage, starship.getX() + 10, starship.getY() - 30);
+		sprites.add(shot);
+		ShotSprite shot1 = new ShotSprite(this, shotImage, starship.getX() + 20, starship.getY() - 30);
+		sprites.add(shot1);
+		ShotSprite shot2 = new ShotSprite(this, shotImage, starship.getX() + 0, starship.getY() - 30);
+		sprites.add(shot2);
+	}
+	public void fire1() {
 		ShotSprite shot = new ShotSprite(this, shotImage, starship.getX() + 10, starship.getY() - 30);
 		sprites.add(shot);
 	}
@@ -137,12 +154,30 @@ public class GalagaGame extends JPanel implements KeyListener {
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT)
 			starship.setDx(+3);
 		if (e.getKeyCode() == KeyEvent.VK_UP)
-				starship.setDy(-3);
+			starship.setDy(-3);
 		if (e.getKeyCode() == KeyEvent.VK_DOWN)
 			starship.setDy(+3);
-		if (bouns > 10) {
+		
+		if (shott > 0) {
 			if (e.getKeyCode() == KeyEvent.VK_Q) {
+				bouns++;
+				shott--;
+				fire1();
+			}
+		}
+		
+		if (shott > 2) {
+			if (e.getKeyCode() == KeyEvent.VK_W) {
+				bouns++;
+				bouns++;
+				shott--;
+				shott--;
 				fire();
+			}
+		}
+		
+		if (bouns > 10) {
+			if (e.getKeyCode() == KeyEvent.VK_E) {
 				fire();
 				fire();
 				fire();
@@ -152,18 +187,10 @@ public class GalagaGame extends JPanel implements KeyListener {
 
 		if (rerode > 0) {
 			if (e.getKeyCode() == KeyEvent.VK_R) {
-				shot = 20;
+				shott = 10;
 				rerode--;
 			}
-		}
-
-		if (shot != 0) {
-			if (e.getKeyCode() == KeyEvent.VK_W) {
-				bouns++;
-				shot--;
-				fire();
-			}
-		}
+		}	
 	}
 
 	@Override
@@ -173,7 +200,7 @@ public class GalagaGame extends JPanel implements KeyListener {
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT)
 			starship.setDx(0);
 		if (e.getKeyCode() == KeyEvent.VK_UP)
-				starship.setDy(0);
+			starship.setDy(0);
 		if (e.getKeyCode() == KeyEvent.VK_DOWN)
 			starship.setDy(0);
 	}
