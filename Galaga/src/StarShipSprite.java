@@ -15,13 +15,13 @@ public class StarShipSprite extends Sprite {
 		if ((dy < 0) && (y < 10)) {
 			return;
 		}
-		if ((dy > 0) && (y > 520)) {
+		if ((dy > 0) && (y > 920)) {
 			return;
 		}
 		if ((dx < 0) && (x < 10)) {
 			return;
 		}
-		if ((dx > 0) && (x > 760)) {
+		if ((dx > 0) && (x > 1920)) {
 			return;
 		}
 		

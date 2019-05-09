@@ -9,20 +9,22 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
 public class GalagaGame extends JPanel implements KeyListener {
-
 	private boolean running = true;
 
 	private ArrayList sprites = new ArrayList();
 	private Sprite starship;
-	//private int mob = 0;
+	
 	private int bouns = 0;
-	private int shott = 12;
-	private int rerode = 14;
+	private int shott = 9;
+	private int rerode = 11;
 	private BufferedImage alienImage;
-	private BufferedImage shotImage;
+	private BufferedImage PshotImage;
+	private BufferedImage FshotImage;
 	private BufferedImage shipImage;
 	private BufferedImage KingalienImage;
 	private BufferedImage alienmobImage;
@@ -30,14 +32,15 @@ public class GalagaGame extends JPanel implements KeyListener {
 	public GalagaGame() {//기본 틀
 		JFrame frame = new JFrame("Galaga Game");
 
-		frame.setSize(800, 600);
+		frame.setSize(1920, 1024);
 		frame.add(this);
 		frame.setResizable(false);
 		frame.setVisible(true);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		try {//이미지 로딩
-			shotImage = ImageIO.read(new File("fire.jpg"));
+			PshotImage = ImageIO.read(new File("fire.jpg"));
+			FshotImage = ImageIO.read(new File("fire.png"));
 			shipImage = ImageIO.read(new File("starship.jpg"));
 			alienImage = ImageIO.read(new File("alien.png"));
 			KingalienImage = ImageIO.read(new File("Kingalien.jpg"));
@@ -51,7 +54,7 @@ public class GalagaGame extends JPanel implements KeyListener {
 		addKeyListener(this);
 
 	}
-
+	
 	private void initSprites() {
 		starship = new StarShipSprite(this, shipImage, 370, 480);
 		sprites.add(starship);
@@ -67,8 +70,10 @@ public class GalagaGame extends JPanel implements KeyListener {
 				sprites.add(alienmob4);
 				Sprite Kingalien1 = new AlienSprite(this, KingalienImage, 100 + 30, 50 + 50);
 				Sprite Kingalien2 = new AlienSprite(this, KingalienImage, 100 + 30, 50 + 50);
+				Sprite Kingalien3 = new AlienSprite(this, KingalienImage, 100 + 30, 50 + 50);
 				sprites.add(Kingalien1);
 				sprites.add(Kingalien2);
+				sprites.add(Kingalien3);
 			}
 		}
 		/*
@@ -96,23 +101,27 @@ public class GalagaGame extends JPanel implements KeyListener {
 	}
 
 	public void fire() {
-		ShotSprite shot = new ShotSprite(this, shotImage, starship.getX() + 10, starship.getY() - 30);
+		ShotSprite shot = new ShotSprite(this, PshotImage, starship.getX() + 10, starship.getY() - 30);
 		sprites.add(shot);
-		ShotSprite shot1 = new ShotSprite(this, shotImage, starship.getX() + 20, starship.getY() - 30);
+		ShotSprite shot1 = new ShotSprite(this, PshotImage, starship.getX() + 20, starship.getY() - 30);
 		sprites.add(shot1);
-		ShotSprite shot2 = new ShotSprite(this, shotImage, starship.getX() + 0, starship.getY() - 30);
+		ShotSprite shot2 = new ShotSprite(this, PshotImage, starship.getX() + 0, starship.getY() - 30);
 		sprites.add(shot2);
+		
 	}
 	public void fire1() {
-		ShotSprite shot = new ShotSprite(this, shotImage, starship.getX() + 10, starship.getY() - 30);
-		sprites.add(shot);
+		ShotSprite1 downshot = new ShotSprite1(this, FshotImage, starship.getX() + 10, starship.getY() - 30);
+		sprites.add(downshot);
+		ShotSprite1 downshot1 = new ShotSprite1(this, FshotImage, starship.getX() + 0, starship.getY() - 25);
+		sprites.add(downshot1);
+		ShotSprite1 downshot2 = new ShotSprite1(this, FshotImage, starship.getX() + 20, starship.getY() - 30);
+		sprites.add(downshot2);
 	}
-
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
 		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, 800, 600);
+		g.fillRect(0, 0, 1920, 1024);
 		for (int i = 0; i < sprites.size(); i++) {
 			Sprite sprite = (Sprite) sprites.get(i);
 			sprite.draw(g);
@@ -162,6 +171,13 @@ public class GalagaGame extends JPanel implements KeyListener {
 			if (e.getKeyCode() == KeyEvent.VK_Q) {
 				bouns++;
 				shott--;
+				fire();
+			}
+		}
+		if (shott > 0) {
+			if (e.getKeyCode() == KeyEvent.VK_A) {
+				bouns++;
+				shott--;
 				fire1();
 			}
 		}
@@ -170,9 +186,27 @@ public class GalagaGame extends JPanel implements KeyListener {
 			if (e.getKeyCode() == KeyEvent.VK_W) {
 				bouns++;
 				bouns++;
+				bouns++;
+				shott--;
 				shott--;
 				shott--;
 				fire();
+				fire();
+				fire();
+			}
+		}
+		
+		if (shott > 2) {
+			if (e.getKeyCode() == KeyEvent.VK_S) {
+				bouns++;
+				bouns++;
+				bouns++;
+				shott--;
+				shott--;
+				shott--;
+				fire1();
+				fire1();
+				fire1();
 			}
 		}
 		
@@ -181,6 +215,17 @@ public class GalagaGame extends JPanel implements KeyListener {
 				fire();
 				fire();
 				fire();
+				fire();
+				bouns = bouns - 10;
+			}
+		}
+		
+		if (bouns > 10) {
+			if (e.getKeyCode() == KeyEvent.VK_D) {
+				fire1();
+				fire1();
+				fire1();
+				fire1();
 				bouns = bouns - 10;
 			}
 		}
