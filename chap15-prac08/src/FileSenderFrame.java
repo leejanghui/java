@@ -17,9 +17,9 @@ import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class FileSenderFrame extends JFrame{
-	private JTextField fileNameTf = new JTextField(20);
+	private JTextField fileNameTf = new JTextField(30);
 	private JButton selBtn = new JButton("이미지 선택");
-	private JButton sendBtn = new JButton("파일 전송");
+	private JButton sendBtn = new JButton("전송");
 	private String filePath = null;
 	
 	public FileSenderFrame() {
