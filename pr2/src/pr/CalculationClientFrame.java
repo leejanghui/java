@@ -112,13 +112,10 @@ public class CalculationClientFrame extends JFrame {
 			while (true) {
 				try {
 					String first = in.readLine();
-					int a = Integer.parseInt(first);
 					String resText = "";
-					int res = 0;
-					out.write(resText + "\n");
+					out.write(resText +"\n");
 					out.flush();
-					log.append(first + "\n"
-							+ "");
+					log.append(first +"\n");
 				} catch (IOException e) {
 					log.append("사용자가 퇴장하였습니다.\n");
 					System.out.println("메신저로 부터 연결 종료");

@@ -107,9 +107,7 @@ public class CalculationServerFrame extends JFrame {
 			while (true) {
 				try {
 					String first = in.readLine();
-					int a = Integer.parseInt(first);
 					String resText = "";
-					int res = 0;
 					out.write(resText + "\n");
 					out.flush();
 					log.append(first + "\n");
@@ -120,7 +118,6 @@ public class CalculationServerFrame extends JFrame {
 				}
 			}
 		}
-
 	}
 
 	public void setupConnection() {
