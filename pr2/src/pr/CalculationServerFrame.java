@@ -116,7 +116,7 @@ public class CalculationServerFrame extends JFrame {
 	}
 	public void setupConnection() {
 		try {
-			socket = new Socket("localhost", 9997);
+			socket = new Socket("localhost", 9999);
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 		} catch (UnknownHostException e) {

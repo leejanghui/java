@@ -27,9 +27,7 @@ public class CalculationClientFrame extends JFrame {
 	private BufferedReader in = null;
 	private BufferedWriter out = null;
 	private JTextArea log = new JTextArea(28, 53);
-
 	public CalculationClientFrame() {
-
 		super("1:1메신저 클라이언트");
 		setSize(600, 600);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -41,22 +39,17 @@ public class CalculationClientFrame extends JFrame {
 		setVisible(true);
 		new ServerThread().start();
 		setupConnection();
-
 		calcBtn.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					String startText = Tf.getText().trim();
-					
 					Tf.setText("");
-					
 					if (startText.length() == 0)
 						return;
 					out.write(startText + "\n");
 					out.flush();
-					log.append("사용자1 : " + startText + "\n");
-					
+					log.append("사용자1 : " + startText + "\n");			
 				} catch (IOException e) {
 					System.out.println("메신저로 부터 연결 종료");
 					return;
@@ -65,14 +58,13 @@ public class CalculationClientFrame extends JFrame {
 			}
 		});
 	}
-
 	class ServerThread extends Thread {
 		@Override
 		public void run() {
 			ServerSocket listener = null;
 			Socket socket = null;
 			try {
-				listener = new ServerSocket(9997);
+				listener = new ServerSocket(9999);
 				while (true) {
 					socket = listener.accept();
 					log.append("사용자가 입장하였습니다.\n");
@@ -86,18 +78,15 @@ public class CalculationClientFrame extends JFrame {
 					listener.close();
 				if (socket != null)
 					socket.close();
-
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 	}
-
 	class ServiceThread extends Thread {
 		private Socket socket = null;
 		private BufferedReader in = null;
 		private BufferedWriter out = null;
-
 		private ServiceThread(Socket socket) {
 			this.socket = socket;
 			try {
@@ -107,7 +96,6 @@ public class CalculationClientFrame extends JFrame {
 				e.printStackTrace();
 			}
 		}
-
 		public void run() {
 			while (true) {
 				try {
@@ -124,7 +112,6 @@ public class CalculationClientFrame extends JFrame {
 			}
 		}
 	}
-
 	public void setupConnection() {
 		try {
 			socket = new Socket("localhost", 9998);
@@ -136,7 +123,6 @@ public class CalculationClientFrame extends JFrame {
 			e.printStackTrace();
 		}
 	}
-
 	public static void main(String[] args) {
 		new CalculationClientFrame();
 	}
