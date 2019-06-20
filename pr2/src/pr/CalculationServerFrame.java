@@ -5,6 +5,8 @@ import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -27,7 +29,6 @@ public class CalculationServerFrame extends JFrame {
 	private BufferedReader in = null;
 	private BufferedWriter out = null;
 	private JTextArea log = new JTextArea(28, 53);
-
 	public CalculationServerFrame() {
 		super("멀티스레드 메신저 서버");
 		setSize(600, 600);
@@ -40,18 +41,17 @@ public class CalculationServerFrame extends JFrame {
 		setVisible(true);
 		setupConnection();
 		new ServerThread().start();
-		calcBtn.addActionListener(new ActionListener() {
-
+		calcBtn.addActionListener(new ActionListener() {//전송버튼에 들어갈 액션 리스너
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					String startText = startTf.getText().trim();
-
+					startTf.setText("");//전송후 채팅창 클리어
 					if (startText.length() == 0)
 						return;
 					out.write(startText + "\n");
 					out.flush();
-					String result = in.readLine();
+					log.append("사용자 2 : " + startText + "\n");//전송후 로그 남김
 				} catch (IOException e) {
 					System.out.println("메신저로 부터 연결 종료");
 					return;
@@ -60,7 +60,6 @@ public class CalculationServerFrame extends JFrame {
 			}
 		});
 	}
-
 	class ServerThread extends Thread {
 		@Override
 		public void run() {
@@ -81,18 +80,15 @@ public class CalculationServerFrame extends JFrame {
 					listener.close();
 				if (socket != null)
 					socket.close();
-
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 	}
-
 	class ServiceThread extends Thread {
 		private Socket socket = null;
 		private BufferedReader in = null;
 		private BufferedWriter out = null;
-
 		private ServiceThread(Socket socket) {
 			this.socket = socket;
 			try {
@@ -102,7 +98,6 @@ public class CalculationServerFrame extends JFrame {
 				e.printStackTrace();
 			}
 		}
-
 		public void run() {
 			while (true) {
 				try {
@@ -110,7 +105,7 @@ public class CalculationServerFrame extends JFrame {
 					String resText = "";
 					out.write(resText + "\n");
 					out.flush();
-					log.append(first + "\n");
+					log.append("사용자 1 : " + first + "\n");
 				} catch (IOException e) {
 					log.append("사용자가 퇴장하였습니다.\n");
 					System.out.println("메신저로 부터 연결 종료");
@@ -119,7 +114,6 @@ public class CalculationServerFrame extends JFrame {
 			}
 		}
 	}
-
 	public void setupConnection() {
 		try {
 			socket = new Socket("localhost", 9997);
@@ -131,10 +125,7 @@ public class CalculationServerFrame extends JFrame {
 			e.printStackTrace();
 		}
 	}
-
 	public static void main(String[] args) {
 		new CalculationServerFrame();
-
 	}
-
 }

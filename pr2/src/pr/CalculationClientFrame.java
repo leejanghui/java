@@ -16,13 +16,9 @@ import java.net.UnknownHostException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-
-import pr.CalculationServerFrame.ServerThread;
-import pr.CalculationServerFrame.ServiceThread;
 
 public class CalculationClientFrame extends JFrame {
 	private JTextField Tf = new JTextField(46);
@@ -52,11 +48,15 @@ public class CalculationClientFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					String startText = Tf.getText().trim();
+					
+					Tf.setText("");
+					
 					if (startText.length() == 0)
 						return;
 					out.write(startText + "\n");
 					out.flush();
-					String result = in.readLine();
+					log.append("사용자1 : " + startText + "\n");
+					
 				} catch (IOException e) {
 					System.out.println("메신저로 부터 연결 종료");
 					return;
@@ -113,9 +113,9 @@ public class CalculationClientFrame extends JFrame {
 				try {
 					String first = in.readLine();
 					String resText = "";
-					out.write(resText +"\n");
+					out.write(resText + "\n");
 					out.flush();
-					log.append(first +"\n");
+					log.append("사용자 2 :" + first + "\n");
 				} catch (IOException e) {
 					log.append("사용자가 퇴장하였습니다.\n");
 					System.out.println("메신저로 부터 연결 종료");
@@ -123,7 +123,6 @@ public class CalculationClientFrame extends JFrame {
 				}
 			}
 		}
-
 	}
 
 	public void setupConnection() {
@@ -137,9 +136,8 @@ public class CalculationClientFrame extends JFrame {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void main(String[] args) {
 		new CalculationClientFrame();
 	}
-
 }
